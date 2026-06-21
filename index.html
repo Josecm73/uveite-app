@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UveíteApp — Guia Clínico Completo</title>
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#00d9b8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07090f;--bg2:#0d1117;--card:#111827;--card2:#1a2436;
+  --border:#1f2d42;--b2:#26384f;
+  --accent:#00d9b8;--a2:#00a898;--teal:#00d9b8;--blue:#1e90ff;
+  --gold:#f0b429;--green:#10d996;--red:#ff5c5c;
+  --orange:#ff8c42;--purple:#a78bfa;--pink:#f472b6;
+  --text:#e8f0f8;--text2:#8da4bf;--text3:#4a6278;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;font-size:15px;background:var(--bg);color:var(--text);overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--b2);border-radius:3px}
+
+/* ===== TOPBAR ===== */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(7,9,15,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 1.2rem;height:54px;gap:1rem}
+.tb-brand{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;background:linear-gradient(90deg,var(--teal),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap;cursor:pointer}
+.tb-brand span{-webkit-text-fill-color:var(--text2);font-weight:400;font-size:.75rem;margin-left:4px;letter-spacing:.05em;text-transform:uppercase}
+.tb-nav{display:flex;gap:.2rem;flex:1;justify-content:center;flex-wrap:nowrap;overflow-x:auto}
+.tb-nav::-webkit-scrollbar{display:none}
+.tn{background:none;border:none;padding:5px 10px;font-size:.72rem;font-weight:600;color:var(--text3);cursor:pointer;border-radius:6px;white-space:nowrap;transition:all .2s;font-family:'Space Grotesk',sans-serif;letter-spacing:.03em}
+.tn:hover{color:var(--text);background:rgba(255,255,255,.05)}
+.tn.active{color:var(--teal);background:rgba(0,217,184,.1)}
+.tb-search{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;padding:4px 10px;min-width:160px}
+.tb-search input{background:none;border:none;outline:none;color:var(--text);font-size:.78rem;width:100%;font-family:'Inter',sans-serif}
+.tb-search input::placeholder{color:var(--text3)}
+
+/* ===== LAYOUT ===== */
+.page{display:none;padding-top:54px;min-height:100vh}
+.page.active{display:block}
+.container{max-width:1200px;margin:0 auto;padding:2rem 1.2rem}
+.sec-header{margin-bottom:2rem}
+.sec-tag{font-size:.68rem;font-weight:700;letter-spacing:.12em;color:var(--teal);text-transform:uppercase;margin-bottom:.4rem;display:flex;align-items:center;gap:6px}
+.sec-tag::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--teal);display:inline-block}
+.sec-title{font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:700;letter-spacing:-.025em;margin-bottom:.6rem}
+.sec-sub{font-size:.88rem;color:var(--text2);line-height:1.7;max-width:680px}
+
+/* ===== HERO ===== */
+#hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:80px 1.2rem 3rem;position:relative;text-align:center;overflow:hidden}
+.hbg{position:absolute;inset:0;background:radial-gradient(ellipse 900px 600px at 50% 40%,rgba(30,144,255,.07) 0%,transparent 65%),radial-gradient(ellipse 500px 400px at 80% 80%,rgba(0,217,184,.04) 0%,transparent 60%)}
+.hgrid{position:absolute;inset:0;opacity:.025;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:50px 50px}
+.hi{position:relative;max-width:900px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(0,217,184,.08);border:1px solid rgba(0,217,184,.2);border-radius:30px;padding:5px 16px;margin-bottom:2rem;font-size:.71rem;font-weight:700;letter-spacing:.1em;color:var(--teal);text-transform:uppercase}
+.eyebrow span{width:5px;height:5px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.htitle{font-size:clamp(2.2rem,6vw,3.8rem);font-weight:700;letter-spacing:-.03em;line-height:1.06;margin-bottom:1.2rem}
+.grad{background:linear-gradient(90deg,var(--teal),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hsub{font-size:.95rem;color:var(--text2);line-height:1.8;max-width:660px;margin:0 auto 2.5rem}
+.hero-btns{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-bottom:3rem}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--teal),var(--a2));border:none;border-radius:10px;padding:12px 24px;color:#07090f;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .25s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,217,184,.3)}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:12px 24px;color:var(--text2);font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .25s}
+.btn-ghost:hover{border-color:var(--b2);color:var(--text);background:rgba(255,255,255,.08)}
+.stats{display:flex;gap:2.5rem;justify-content:center;flex-wrap:wrap;padding-top:2rem;border-top:1px solid var(--border)}
+.stat{text-align:center}.sn{font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:700;color:var(--teal);line-height:1}
+.sl{font-size:.68rem;color:var(--text3);margin-top:4px;letter-spacing:.03em;text-transform:uppercase}
+
+/* ===== QUICK ACCESS ===== */
+.quick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-top:1.5rem}
+.qcard{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.2rem;cursor:pointer;transition:all .22s;text-align:left}
+.qcard:hover{border-color:var(--b2);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.qcard-icon{font-size:1.6rem;margin-bottom:.7rem}
+.qcard-title{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;margin-bottom:.3rem}
+.qcard-sub{font-size:.72rem;color:var(--text3)}
+.qcard.c-blue{border-top:2px solid var(--accent)}
+.qcard.c-teal{border-top:2px solid var(--teal)}
+.qcard.c-gold{border-top:2px solid var(--gold)}
+.qcard.c-red{border-top:2px solid var(--red)}
+.qcard.c-green{border-top:2px solid var(--green)}
+.qcard.c-purple{border-top:2px solid var(--purple)}
+
+/* ===== CLASSIFICAÇÃO ===== */
+.class-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.2rem;margin-top:1.5rem}
+.class-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.class-head{padding:1.2rem 1.4rem 1rem;border-bottom:1px solid var(--border)}
+.class-head h3{font-size:1rem;font-weight:700;margin-bottom:.3rem}
+.class-head p{font-size:.78rem;color:var(--text2)}
+.class-body{padding:1.2rem 1.4rem}
+.class-item{display:flex;gap:.8rem;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid rgba(31,45,66,.5)}
+.class-item:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.ci-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.ci-name{font-size:.83rem;font-weight:700;margin-bottom:.2rem}
+.ci-desc{font-size:.75rem;color:var(--text2);line-height:1.55}
+.ci-tag{display:inline-block;font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:4px;margin-top:.3rem}
+
+/* ===== SUN GRADING ===== */
+.sun-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:1.5rem}
+@media(max-width:640px){.sun-grid{grid-template-columns:1fr}}
+.sun-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.sun-head{padding:.9rem 1.2rem;background:rgba(30,144,255,.06);border-bottom:1px solid var(--border)}
+.sun-head h3{font-size:.88rem;font-weight:700;color:var(--accent)}
+.sun-table{width:100%;border-collapse:collapse;font-size:.77rem}
+.sun-table th{padding:7px 12px;text-align:left;color:var(--text3);font-size:.65rem;letter-spacing:.07em;text-transform:uppercase;border-bottom:1px solid var(--border)}
+.sun-table td{padding:7px 12px;border-bottom:1px solid rgba(31,45,66,.4);color:var(--text2);vertical-align:top}
+.sun-table tr:last-child td{border-bottom:none}
+.sun-table td:first-child{font-weight:700;color:var(--text)}
+.grade-badge{display:inline-block;padding:1px 8px;border-radius:4px;font-size:.72rem;font-weight:700}
+.g0{background:rgba(74,98,120,.2);color:var(--text3)}
+.g1{background:rgba(16,217,150,.15);color:var(--green)}
+.g2{background:rgba(240,180,41,.15);color:var(--gold)}
+.g3{background:rgba(255,140,66,.15);color:var(--orange)}
+.g4{background:rgba(255,92,92,.2);color:var(--red)}
+
+/* ===== DOENÇAS ===== */
+.filters{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.filter-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:5px 14px;font-size:.74rem;font-weight:600;cursor:pointer;color:var(--text2);font-family:'Space Grotesk',sans-serif;transition:all .2s}
+.filter-btn:hover{border-color:var(--b2);color:var(--text)}
+.filter-btn.active{background:rgba(30,144,255,.12);border-color:var(--accent);color:var(--accent)}
+.filter-btn.f-inf.active{background:rgba(255,92,92,.1);border-color:var(--red);color:var(--red)}
+.filter-btn.f-nei.active{background:rgba(16,217,150,.1);border-color:var(--green);color:var(--green)}
+.filter-btn.f-mas.active{background:rgba(167,139,250,.1);border-color:var(--purple);color:var(--purple)}
+
+.disease-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:1.2rem}
+@media(max-width:640px){.disease-grid{grid-template-columns:1fr}}
+.dcard{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .25s}
+.dcard:hover{border-color:var(--b2);box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.dcard-header{padding:1.2rem 1.4rem 1rem;cursor:pointer}
+.dcard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.7rem}
+.dcard-name{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;line-height:1.3}
+.dcard-badge{font-size:.63rem;font-weight:700;letter-spacing:.06em;padding:3px 9px;border-radius:20px;text-transform:uppercase;flex-shrink:0;margin-left:.5rem}
+.badge-inf{background:rgba(255,92,92,.12);color:var(--red);border:1px solid rgba(255,92,92,.2)}
+.badge-nei{background:rgba(16,217,150,.1);color:var(--green);border:1px solid rgba(16,217,150,.2)}
+.badge-mas{background:rgba(167,139,250,.1);color:var(--purple);border:1px solid rgba(167,139,250,.2)}
+.dcard-syn{font-size:.73rem;color:var(--text3);margin-bottom:.5rem}
+.dcard-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:.7rem}
+.dtag{font-size:.63rem;font-weight:600;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,.05);color:var(--text3)}
+.dtag.t-ant{background:rgba(30,144,255,.08);color:var(--accent)}
+.dtag.t-int{background:rgba(0,217,184,.08);color:var(--teal)}
+.dtag.t-pos{background:rgba(240,180,41,.08);color:var(--gold)}
+.dtag.t-pan{background:rgba(255,140,66,.08);color:var(--orange)}
+.dcard-preview{font-size:.78rem;color:var(--text2);line-height:1.6}
+.dcard-chevron{text-align:right;font-size:.7rem;color:var(--text3);padding:0 1.4rem .8rem;cursor:pointer;user-select:none}
+.dcard-chevron span{transition:transform .25s;display:inline-block}
+.dcard.open .dcard-chevron span{transform:rotate(180deg)}
+.dcard-body{display:none;border-top:1px solid var(--border)}
+.dcard.open .dcard-body{display:block}
+.dcard-section{padding:1.2rem 1.4rem;border-bottom:1px solid rgba(31,45,66,.4)}
+.dcard-section:last-child{border-bottom:none}
+.ds-title{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:.6rem}
+.ds-content{font-size:.84rem;color:var(--text2);line-height:1.75}
+.ds-content strong{color:var(--text);font-weight:600}
+.ds-content .alert{display:block;background:rgba(255,92,92,.08);border:1px solid rgba(255,92,92,.15);border-radius:6px;padding:6px 10px;margin:.5rem 0;font-size:.76rem;color:var(--red)}
+.ds-content .tip{display:block;background:rgba(16,217,150,.06);border:1px solid rgba(16,217,150,.12);border-radius:6px;padding:6px 10px;margin:.5rem 0;font-size:.76rem;color:var(--green)}
+.ds-table{width:100%;border-collapse:collapse;font-size:.76rem;margin:.5rem 0}
+.ds-table th{padding:6px 8px;background:rgba(255,255,255,.03);color:var(--text3);font-size:.65rem;letter-spacing:.07em;text-transform:uppercase;border-bottom:1px solid var(--border);text-align:left}
+.ds-table td{padding:7px 8px;border-bottom:1px solid rgba(31,45,66,.4);color:var(--text2);vertical-align:top;line-height:1.5}
+.ds-table tr:last-child td{border-bottom:none}
+.ds-table td:first-child{color:var(--text);font-weight:600}
+.dose{color:var(--gold);font-weight:700}
+.redfl{color:var(--red);font-weight:700}
+.pill{display:inline-block;font-size:.65rem;padding:1px 6px;border-radius:4px;background:rgba(30,144,255,.1);color:var(--accent);border:1px solid rgba(30,144,255,.15);margin:1px}
+
+/* ===== TABELAS ===== */
+.tab-selector{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.ts-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:.75rem;font-weight:600;cursor:pointer;color:var(--text2);transition:all .2s;font-family:'Space Grotesk',sans-serif}
+.ts-btn.active{background:rgba(30,144,255,.1);border-color:var(--accent);color:var(--accent)}
+.comp-table-wrap{display:none;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.comp-table-wrap.active{display:block}
+.comp-table{width:100%;border-collapse:collapse;font-size:.77rem;min-width:700px}
+.comp-table th{padding:9px 12px;background:rgba(30,144,255,.08);color:var(--accent);font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;border:1px solid var(--border);font-family:'Space Grotesk',sans-serif;font-weight:700;text-align:left}
+.comp-table th:first-child{background:rgba(255,255,255,.03);color:var(--text3)}
+.comp-table td{padding:8px 12px;border:1px solid rgba(31,45,66,.5);color:var(--text2);line-height:1.55;vertical-align:top}
+.comp-table td:first-child{font-weight:700;color:var(--text);background:rgba(255,255,255,.02);white-space:nowrap}
+.comp-table tr:hover td{background:rgba(255,255,255,.02)}
+
+/* ===== ALGORITMOS ===== */
+.algo-list{display:flex;flex-direction:column;gap:1rem;margin-top:1.5rem}
+.algo-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.algo-header{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.4rem;cursor:pointer;gap:1rem}
+.algo-title{font-family:'Space Grotesk',sans-serif;font-size:.92rem;font-weight:700}
+.algo-badge{font-size:.65rem;font-weight:700;padding:3px 9px;border-radius:20px;background:rgba(30,144,255,.1);color:var(--accent);border:1px solid rgba(30,144,255,.15);white-space:nowrap}
+.algo-body{display:none;padding:0 1.4rem 1.4rem;border-top:1px solid var(--border)}
+.algo-card.open .algo-body{display:block}
+.algo-step{display:flex;gap:.9rem;margin:1rem 0}
+.step-num{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-content{flex:1}
+.step-title{font-weight:700;font-size:.83rem;margin-bottom:.2rem}
+.step-desc{font-size:.78rem;color:var(--text2);line-height:1.65}
+.step-sub{font-size:.74rem;color:var(--text3);margin-top:.3rem;padding-left:.8rem;border-left:2px solid var(--border)}
+.algo-branch{background:rgba(30,144,255,.05);border:1px solid rgba(30,144,255,.1);border-radius:8px;padding:.8rem 1rem;margin:.5rem 0;font-size:.78rem;color:var(--text2)}
+.algo-branch strong{color:var(--accent)}
+.algo-warn{background:rgba(255,92,92,.07);border:1px solid rgba(255,92,92,.12);border-radius:8px;padding:.7rem 1rem;margin:.5rem 0;font-size:.77rem;color:var(--red)}
+
+/* ===== TIPS ===== */
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem;margin-top:1.5rem}
+.tip-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.2rem;transition:border-color .2s}
+.tip-card:hover{border-color:var(--b2)}
+.tip-icon{font-size:1.3rem;margin-bottom:.6rem}
+.tip-cat{font-size:.63rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem}
+.tip-text{font-size:.82rem;color:var(--text2);line-height:1.7}
+.tip-text strong{color:var(--text)}
+.tip-mne{display:inline-block;background:rgba(240,180,41,.1);border:1px solid rgba(240,180,41,.2);border-radius:6px;padding:3px 10px;font-size:.73rem;font-weight:700;color:var(--gold);margin-top:.6rem}
+.tip-card.tc-red,.tip-card.tc-redflag{border-left:3px solid var(--red)}
+.tip-card.tc-blue,.tip-card.tc-clinico{border-left:3px solid var(--accent)}
+.tip-card.tc-green,.tip-card.tc-tratamento{border-left:3px solid var(--green)}
+.tip-card.tc-gold,.tip-card.tc-exames{border-left:3px solid var(--gold)}
+.tip-card.tc-purple,.tip-card.tc-mnemonico{border-left:3px solid var(--purple)}
+.tip-card.tc-teal,.tip-card.tc-pratico{border-left:3px solid var(--teal)}
+.tip-title{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:.5rem}
+.tip-body{font-size:.84rem;color:var(--text2);line-height:1.75}
+.tip-body strong{color:var(--text)}
+.tip-fonte{font-size:.68rem;color:var(--text3);margin-top:.7rem;padding-top:.5rem;border-top:1px solid var(--border)}
+.tip-count{font-size:.65rem;opacity:.7}
+.tip-filter-btn{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:.73rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Space Grotesk',sans-serif}
+.tip-filter-btn.active{background:rgba(255,255,255,.06)}
+
+/* ===== TRATAMENTO ===== */
+.trat-tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.trat-tab{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:.75rem;font-weight:600;cursor:pointer;color:var(--text2);transition:all .2s;font-family:'Space Grotesk',sans-serif}
+.trat-tab.active{background:rgba(0,217,184,.1);border-color:var(--teal);color:var(--teal)}
+.trat-panel{display:none}.trat-panel.active{display:block}
+.drug-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1rem;margin-top:1rem}
+.drug-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem}
+.drug-name{font-family:'Space Grotesk',sans-serif;font-size:.92rem;font-weight:700;margin-bottom:.3rem}
+.drug-class{font-size:.68rem;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.8rem}
+.drug-row{display:flex;justify-content:space-between;font-size:.77rem;padding:.4rem 0;border-bottom:1px solid rgba(31,45,66,.4)}
+.drug-row:last-child{border-bottom:none}
+.dr-label{color:var(--text3)}
+.dr-val{color:var(--text2);text-align:right;max-width:60%}
+.dr-val.dose{color:var(--gold);font-weight:700}
+
+/* ===== TABELAS COMP ===== */
+.comp-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:1rem}
+.comp-header{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.2rem;cursor:pointer}
+.comp-title{font-family:'Space Grotesk',sans-serif;font-size:.92rem;font-weight:700;margin-bottom:.2rem}
+.comp-sub{font-size:.73rem;color:var(--text3)}
+.comp-toggle{font-size:.8rem;color:var(--text3);flex-shrink:0;margin-left:.5rem;transition:transform .25s}
+.comp-card.open .comp-toggle{transform:rotate(180deg)}
+.comp-body{display:none;border-top:1px solid var(--border);padding:1rem 1.2rem}
+.comp-card.open .comp-body{display:block}
+.comp-table{width:100%;border-collapse:collapse;font-size:.74rem}
+.comp-table th{background:rgba(255,255,255,.03);padding:7px 9px;text-align:left;font-size:.65rem;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);border-bottom:1px solid var(--border)}
+.comp-table td{padding:7px 9px;border-bottom:1px solid rgba(31,45,66,.3);color:var(--text2);vertical-align:top;line-height:1.5}
+.comp-table .tr-alt td{background:rgba(255,255,255,.015)}
+.comp-table .td-label{color:var(--text);font-weight:600;min-width:130px}
+.comp-nota{margin-top:.8rem;font-size:.73rem;color:var(--text3);background:rgba(255,255,255,.02);padding:.6rem .8rem;border-radius:8px;border:1px solid var(--border)}
+.nota-icon{margin-right:4px}
+
+/* ===== TRATAMENTO ===== */
+.trat-section{margin-bottom:2rem}
+.trat-sec-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:1rem;padding:.5rem 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem}
+.trat-icon{font-size:1.1rem}
+.trat-group{margin-bottom:1.5rem}
+.trat-group-title{font-size:.8rem;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.7rem}
+.drug-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:.8rem}
+.drug-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.1rem}
+.drug-name{font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;margin-bottom:.6rem;color:var(--text)}
+.drug-rows{display:flex;flex-direction:column;gap:0}
+.drug-row{display:flex;gap:.5rem;font-size:.76rem;padding:.35rem 0;border-bottom:1px solid rgba(31,45,66,.3)}
+.drug-row:last-child{border-bottom:none}
+.dr-label{color:var(--text3);min-width:85px;flex-shrink:0;font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;padding-top:1px}
+.dr-val{color:var(--text2);line-height:1.5;flex:1}
+.dr-val.dr-via{color:var(--accent);font-weight:600;font-size:.72rem}
+.dr-val.dr-obs{color:var(--text3);font-size:.72rem}
+
+/* ===== EXAMES ===== */
+.exam-list{display:flex;flex-direction:column;gap:.8rem;margin-top:1.5rem}
+.exam-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.exam-header{display:flex;justify-content:space-between;align-items:flex-start;padding:1rem 1.2rem;cursor:pointer;gap:1rem}
+.exam-title{font-family:'Space Grotesk',sans-serif;font-size:.92rem;font-weight:700;margin-bottom:.2rem}
+.exam-desc{font-size:.73rem;color:var(--text3);line-height:1.5}
+.exam-toggle{font-size:.8rem;color:var(--text3);flex-shrink:0;margin-top:2px;transition:transform .25s}
+.exam-card.open .exam-toggle{transform:rotate(180deg)}
+.exam-body{display:none;border-top:1px solid var(--border);padding:.8rem 1.2rem 1.2rem}
+.exam-card.open .exam-body{display:block}
+.exam-achados{display:flex;flex-direction:column;gap:.4rem}
+.achado-item{border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.achado-header{display:flex;justify-content:space-between;align-items:center;padding:.6rem .9rem;cursor:pointer;background:rgba(255,255,255,.02)}
+.achado-header:hover{background:rgba(255,255,255,.04)}
+.achado-doenca{font-size:.8rem;font-weight:600;color:var(--text)}
+.achado-toggle{font-size:.9rem;color:var(--text3);transition:transform .2s}
+.achado-item.open .achado-toggle{transform:rotate(90deg)}
+.achado-body{display:none;padding:.7rem .9rem;border-top:1px solid var(--border)}
+.achado-item.open .achado-body{display:block}
+.achado-row{margin-bottom:.6rem}
+.achado-row:last-child{margin-bottom:0}
+.ar-label{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--teal);display:block;margin-bottom:.2rem}
+.achado-row p{font-size:.77rem;color:var(--text2);line-height:1.6}
+.ar-imagem{color:var(--gold)!important;font-style:italic}
+
+/* ===== ALGORITMOS ===== */
+.algo-header{display:flex;justify-content:space-between;align-items:flex-start;padding:1rem 1.2rem;cursor:pointer;gap:.8rem}
+.algo-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:.2rem}
+.algo-sub{font-size:.73rem;color:var(--text3)}
+.algo-toggle{font-size:.9rem;flex-shrink:0;margin-top:2px;transition:transform .25s}
+.algo-card.open .algo-toggle{transform:rotate(180deg)}
+.algo-body{display:none;border-top:1px solid var(--border);padding:1.2rem}
+.algo-card.open .algo-body{display:block}
+.algo-steps{display:flex;flex-direction:column;gap:.4rem}
+.algo-step{display:flex;gap:.8rem;align-items:flex-start}
+.step-num{flex-shrink:0;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:#fff;margin-top:2px}
+.step-content{flex:1}
+.step-title{font-family:'Space Grotesk',sans-serif;font-size:.83rem;font-weight:700;margin-bottom:.4rem}
+.step-list{padding-left:1.2rem;list-style:disc}
+.step-list li{font-size:.78rem;color:var(--text2);line-height:1.7;margin-bottom:.15rem}
+.step-arrow{text-align:center;color:var(--text3);font-size:1rem;margin:.1rem 0;padding-left:14px}
+
+/* ===== SEARCH RESULTS ===== */
+.search-results{display:none;position:absolute;top:100%;left:0;right:0;background:var(--card2);border:1px solid var(--border);border-radius:0 0 10px 10px;max-height:360px;overflow-y:auto;z-index:300;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.search-results.show{display:block}
+.sr-item{padding:.7rem 1rem;cursor:pointer;border-bottom:1px solid rgba(31,45,66,.4);transition:background .15s}
+.sr-item:hover{background:rgba(255,255,255,.04)}
+.sr-item:last-child{border-bottom:none}
+.sr-name{font-size:.83rem;font-weight:600;margin-bottom:.15rem}
+.sr-cat{font-size:.68rem;color:var(--text3)}
+.sr-icon{font-size:1rem;flex-shrink:0;width:24px;text-align:center}
+.sr-info{flex:1;min-width:0}
+.sr-title{font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:.1rem}
+.sr-sub{font-size:.71rem;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sr-type{font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--teal);flex-shrink:0;margin-left:.5rem}
+.sr-empty{padding:.8rem 1rem;font-size:.8rem;color:var(--text3);text-align:center}
+.sr-item{display:flex;align-items:center;gap:.6rem;padding:.7rem 1rem;cursor:pointer;border-bottom:1px solid rgba(31,45,66,.4);transition:background .15s}
+.search-wrap{position:relative;flex:1;max-width:280px}
+@keyframes flashHighlight{0%,100%{background:transparent}50%{background:rgba(30,144,255,.1);border-color:var(--accent)}}
+.highlight-flash{animation:flashHighlight 1s ease 2}
+
+/* ===== REFS ===== */
+.ref-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;margin-bottom:.6rem}
+.ref-num{font-size:.68rem;color:var(--text3);margin-bottom:.25rem}
+.ref-text{font-size:.79rem;color:var(--text2);line-height:1.6}
+.ref-text a{color:var(--accent);text-decoration:none}
+.ref-level{display:inline-block;font-size:.62rem;font-weight:700;padding:1px 7px;border-radius:4px;background:rgba(16,217,150,.1);color:var(--green);border:1px solid rgba(16,217,150,.15);margin-top:.3rem}
+
+/* ===== FOOTER ===== */
+footer{border-top:1px solid var(--border);padding:1.5rem 1.2rem;text-align:center;font-size:.72rem;color:var(--text3);line-height:1.8}
+footer strong{color:var(--text2)}
+
+/* ===== BOTTOM NAV (mobile) ===== */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(13,17,23,.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:6px 0 env(safe-area-inset-bottom,6px)}
+.bottom-nav-inner{display:flex;justify-content:space-around;align-items:center}
+.bn-item{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:var(--text3);cursor:pointer;padding:4px 8px;border-radius:8px;transition:color .2s;min-width:52px}
+.bn-item.active,.bn-item:hover{color:var(--teal)}
+.bn-icon{font-size:1.25rem;line-height:1}
+.bn-label{font-size:.58rem;font-weight:600;letter-spacing:.04em;font-family:'Space Grotesk',sans-serif;text-transform:uppercase}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .tb-nav{max-width:calc(100vw - 220px)}
+  .class-grid,.disease-grid,.tips-grid,.drug-grid{grid-template-columns:1fr}
+  .sun-grid{grid-template-columns:1fr}
+  .quick-grid{grid-template-columns:repeat(2,1fr)}
+  .stats{gap:1.5rem}
+  .bottom-nav{display:block}
+  .page{padding-bottom:64px}
+}
+@media(max-width:480px){
+  .quick-grid{grid-template-columns:1fr}
+  .tb-search{display:none}
+  .tb-nav{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<nav class="topbar">
+  <div class="tb-brand" onclick="showPage('home')">UveítaApp <span>v2.0</span></div>
+  <div class="tb-nav">
+    <button class="tn active" onclick="showPage('home')">Início</button>
+    <button class="tn" onclick="showPage('classificacao')">Classificação</button>
+    <button class="tn" onclick="showPage('doencas')">Doenças</button>
+    <button class="tn" onclick="showPage('tabelas')">Tabelas</button>
+    <button class="tn" onclick="showPage('algoritmos')">Algoritmos</button>
+    <button class="tn" onclick="showPage('tips')">Tips</button>
+    <button class="tn" onclick="showPage('tratamento')">Tratamento</button>
+    <button class="tn" onclick="showPage('exames')">Exames</button>
+    <button class="tn" onclick="showPage('referencias')">Refs</button>
+  </div>
+  <div class="search-wrap">
+    <div class="tb-search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="searchInput" placeholder="Buscar doença, sinal, droga..." oninput="doSearch(this.value)" onblur="setTimeout(()=>closeSearch(),200)">
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</nav>
+
+<!-- PAGE: HOME -->
+<div class="page active" id="page-home">
+  <section id="hero">
+    <div class="hbg"></div><div class="hgrid"></div>
+    <div class="hi">
+      <div class="eyebrow"><span></span>Guia Clínico Completo 2024</div>
+      <h1 class="htitle">Uveítes: do <span class="grad">Diagnóstico</span><br>ao Tratamento</h1>
+      <p class="hsub">Aplicativo médico de alta precisão para oftalmologistas, residentes e estudantes. Baseado em critérios SUN 2021, PCDT-MS, Kanski, BCSC AAO e diretrizes internacionais atualizadas.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('doencas')">Ver Doenças</button>
+        <button class="btn-ghost" onclick="showPage('algoritmos')">Algoritmos Clínicos</button>
+        <button class="btn-ghost" onclick="showPage('tabelas')">Tabelas Comparativas</button>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="sn">24</div><div class="sl">Doenças Detalhadas</div></div>
+        <div class="stat"><div class="sn">9</div><div class="sl">Algoritmos Clínicos</div></div>
+        <div class="stat"><div class="sn">6</div><div class="sl">Tabelas Comparativas</div></div>
+        <div class="stat"><div class="sn">51</div><div class="sl">Tips Práticas</div></div>
+        <div class="stat"><div class="sn">SUN</div><div class="sl">Critérios 2021</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container" style="padding-top:0">
+    <div class="sec-header">
+      <div class="sec-tag">Acesso Rápido</div>
+      <h2 class="sec-title">Explore por Categoria</h2>
+    </div>
+    <div class="quick-grid">
+      <div class="qcard c-blue" onclick="showPage('classificacao')">
+        <div class="qcard-icon">🔬</div>
+        <div class="qcard-title">Classificação SUN</div>
+        <div class="qcard-sub">Anatômica, clínica e etiológica · Critérios 2021</div>
+      </div>
+      <div class="qcard c-red" onclick="filterDiseases('infecciosa');showPage('doencas')">
+        <div class="qcard-icon">🦠</div>
+        <div class="qcard-title">Uveítes Infecciosas</div>
+        <div class="qcard-sub">Toxo, sífilis, TB, CMV, Herpes, Toxocara…</div>
+      </div>
+      <div class="qcard c-green" onclick="filterDiseases('nao-infecciosa');showPage('doencas')">
+        <div class="qcard-icon">🛡️</div>
+        <div class="qcard-title">Uveítes Não Infecciosas</div>
+        <div class="qcard-sub">HLA-B27, VKH, Behçet, Sarcoidose, Birdshot…</div>
+      </div>
+      <div class="qcard c-gold" onclick="showPage('algoritmos')">
+        <div class="qcard-icon">🧭</div>
+        <div class="qcard-title">Algoritmos</div>
+        <div class="qcard-sub">Fluxos de decisão clínica passo a passo</div>
+      </div>
+      <div class="qcard c-teal" onclick="showPage('tabelas')">
+        <div class="qcard-icon">📊</div>
+        <div class="qcard-title">Tabelas Comparativas</div>
+        <div class="qcard-sub">Diagnóstico diferencial visual lado a lado</div>
+      </div>
+      <div class="qcard c-purple" onclick="showPage('tips')">
+        <div class="qcard-icon">💡</div>
+        <div class="qcard-title">Tips Práticas</div>
+        <div class="qcard-sub">Red flags, mnemônicos e pérolas clínicas</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: CLASSIFICAÇÃO -->
+<div class="page" id="page-classificacao">
+  <div class="container">
+    <div class="sec-header">
+      <div class="sec-tag">Critérios SUN 2005 / 2021</div>
+      <h2 class="sec-title">Classificação das Uveítes</h2>
+      <p class="sec-sub">Sistema padronizado pelo SUN Working Group para nomenclatura uniforme das uveítes em pesquisa e prática clínica.</p>
+    </div>
+
+    <h3 style="font-size:1rem;margin-bottom:1rem;color:var(--text2)">1. Classificação Anatômica</h3>
+    <div class="class-grid" id="class-anatomica"></div>
+
+    <h3 style="font-size:1rem;margin:.2rem 0 1rem;color:var(--text2)">2. Gradação de Atividade (SUN)</h3>
+    <div class="sun-grid" id="sun-grading"></div>
+
+    <h3 style="font-size:1rem;margin:2rem 0 1rem;color:var(--text2)">3. Classificação Etiológica</h3>
+    <div class="class-grid" id="class-etiologica"></div>
+  </div>
+</div>
+
+<!-- PAGE: DOENÇAS -->
+<div class="page" id="page-doencas">
+  <div class="container">
+    <div class="sec-header">
+      <div class="sec-tag">Fichas Clínicas Completas</div>
+      <h2 class="sec-title">Doenças</h2>
+      <p class="sec-sub">23 entidades detalhadas com etiologia, sinais, exames, tratamento e prognóstico.</p>
+    </div>
+    <div class="filters" id="disease-filters">
+      <button class="filter-btn active" onclick="filterDiseases('all')">Todas</button>
+      <button class="filter-btn f-inf" onclick="filterDiseases('infecciosa')">Infecciosas</button>
+      <button class="filter-btn f-nei" onclick="filterDiseases('nao-infecciosa')">Não Infecciosas</button>
+      <button class="filter-btn f-mas" onclick="filterDiseases('masquerade')">Masquerade</button>
+    </div>
+    <div class="disease-grid" id="disease-grid"></div>
+  </div>
+</div>
+
+<!-- PAGE: TABELAS -->
+<div class="page" id="page-tabelas">
+  <div class="container">
+    <div class="sec-header">
+      <div class="sec-tag">Diagnóstico Diferencial</div>
+      <h2 class="sec-title">Tabelas Comparativas</h2>
+      <p class="sec-sub">Comparação lado a lado das principais entidades para diagnóstico diferencial rápido.</p>
+    </div>
+    <div class="tab-selector" id="tab-selector"></div>
+    <div id="tab-content"></div>
+  </div>
+</div>
+
+<!-- PAGE: ALGORITMOS -->
+<div class="page" id="page-algoritmos">
+  <div class="container">
+    <div class="sec-header">
+      <div class="sec-tag">Decisão Clínica</div>
+      <h2 class="sec-title">Algoritmos</h2>
+      <p class="sec-sub">Fluxos passo a passo para abordagem sistematizada das uveítes em consultório e emergência.</p>
+    </div>
+    <div class="algo-list" id="algo-list"></div>
+  </div>
+</div>
+
+<!-- PAGE: TIPS -->
+<div class="page" id="page-tips">
+  <div class="container">
+    <div class="sec-header">
+      <div class="sec-tag">Pérolas Clínicas</div>
+      <h2 class="sec-title">Tips Práticas</h2>
+      <p class="sec-sub">Red flags, mnemônicos e associações diagnósticas para não errar na prática diária.</p>
+    </div>
+    <div class="tip-filters" id="tip-filters" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem"></div>
+    <div class="tips-grid" id="tips-grid"></div>
+  </div>
+</div>
+
+<!-- PAGE: TRATAMENTO -->
+<div class="page" id="page-tratamento">
+  <div class="container">
+    <div class="sec-header">
+      <div class="sec-tag">Protocolos e Dosagens</div>
+      <h2 class="sec-title">Tratamento</h2>
+      <p class="sec-sub">Doses precisas, vias de administração, esquemas de tapering e monitoramento. Baseado no PCDT-MS e diretrizes AAO/EULAR.</p>
+    </div>
+    <div class="trat-tabs" id="trat-tabs"></div>
+    <div id="trat-content"></div>
+  </div>
+</div>
+
+<!-- PAGE: EXAMES -->
+<div class="page" id="page-exames">
+  <div class="container">
+    <div class="sec-header">
+      <div class="sec-tag">Diagnóstico Complementar</div>
+      <h2 class="sec-title">Exames Diagnósticos</h2>
+      <p class="sec-sub">Resultados típicos, indicações e interpretação clínica de cada exame na investigação das uveítes.</p>
+    </div>
+    <div class="exam-list" id="exam-list"></div>
+  </div>
+</div>
+
+<!-- PAGE: REFERÊNCIAS -->
+<div class="page" id="page-referencias">
+  <div class="container">
+    <div class="sec-header">
+      <div class="sec-tag">Fontes Científicas</div>
+      <h2 class="sec-title">Referências</h2>
+      <p class="sec-sub">Fontes utilizadas na construção deste aplicativo. Conteúdo baseado em evidências e consensos internacionais atualizados.</p>
+    </div>
+    <div id="refs-list">
+      <div class="ref-card"><div class="ref-num">01</div><div class="ref-text"><strong>Jabs DA, Nussenblatt RB, Rosenbaum JT; Standardization of Uveitis Nomenclature (SUN) Working Group.</strong> Standardization of uveitis nomenclature for reporting clinical data. Results of the First International Workshop. <em>Am J Ophthalmol</em>. 2005;140(3):509-516. <span class="ref-level">Critério SUN</span></div></div>
+      <div class="ref-card"><div class="ref-num">02</div><div class="ref-text"><strong>Standardization of Uveitis Nomenclature (SUN) Working Group.</strong> Classification Criteria for Uveitis. <em>Am J Ophthalmol</em>. 2021;228:1-232. (25 entidades definidas — SUN 2021) <span class="ref-level">Critério SUN 2021</span></div></div>
+      <div class="ref-card"><div class="ref-num">03</div><div class="ref-text"><strong>Kanski JJ, Bowling B.</strong> Oftalmologia Clínica — Um Enfoque Sistemático. 8ª edição. Capítulo 11: Uveíte, pp. 604–721. Elsevier, 2016. <span class="ref-level">Livro Texto</span></div></div>
+      <div class="ref-card"><div class="ref-num">04</div><div class="ref-text"><strong>American Academy of Ophthalmology.</strong> Basic and Clinical Science Course (BCSC), Section 9: Uveitis and Ocular Inflammation. AAO, 2019–2020. <span class="ref-level">Livro Texto</span></div></div>
+      <div class="ref-card"><div class="ref-num">05</div><div class="ref-text"><strong>CONITEC / Ministério da Saúde.</strong> Protocolo Clínico e Diretrizes Terapêuticas das Uveítes Não Infecciosas. PCDT MS/CONITEC, 2019. Disponível em: gov.br/conitec <span class="ref-level">Protocolo Brasileiro</span></div></div>
+      <div class="ref-card"><div class="ref-num">06</div><div class="ref-text"><strong>Rosenbaum JT et al.</strong> New observations and emerging ideas in diagnosis and management of non-infectious uveitis: A review. <em>Semin Arthritis Rheum</em>. 2019;49(3):438-445. <span class="ref-level">Revisão</span></div></div>
+      <div class="ref-card"><div class="ref-num">07</div><div class="ref-text"><strong>Endophthalmitis Vitrectomy Study Group.</strong> Results of the Endophthalmitis Vitrectomy Study. <em>Arch Ophthalmol</em>. 1995;113(12):1479-1496. <span class="ref-level">Estudo Clínico</span></div></div>
+      <div class="ref-card"><div class="ref-num">08</div><div class="ref-text"><strong>International Study Group for Behçet's Disease (ISBD).</strong> Criteria for diagnosis of Behçet's disease. <em>Lancet</em>. 1990;335(8697):1078-1080. Atualizado ISBD 2014. <span class="ref-level">Critério Diagnóstico</span></div></div>
+      <div class="ref-card"><div class="ref-num">09</div><div class="ref-text"><strong>Read RW et al.</strong> Revised diagnostic criteria for Vogt-Koyanagi-Harada disease: report of an international committee on nomenclature. <em>Am J Ophthalmol</em>. 2001;131(5):647-652. <span class="ref-level">Critério Diagnóstico</span></div></div>
+      <div class="ref-card"><div class="ref-num">10</div><div class="ref-text"><strong>Centers for Disease Control and Prevention (CDC).</strong> Sexually Transmitted Infections Treatment Guidelines, 2021. Morbidity and Mortality Weekly Report 2021;70(4):1-187. <span class="ref-level">Guideline</span></div></div>
+      <div class="ref-card"><div class="ref-num">11</div><div class="ref-text"><strong>Dick AD et al; VISUAL-1 and VISUAL-2 Trials.</strong> Adalimumab in active noninfectious uveitis. <em>N Engl J Med</em>. 2016;375(10):932-943. <span class="ref-level">Ensaio Clínico</span></div></div>
+      <div class="ref-card"><div class="ref-num">12</div><div class="ref-text"><strong>Guidance for AAP Committee on Rheumatology / Section on Ophthalmology.</strong> Screening for Uveitis in Juvenile Idiopathic Arthritis. <em>Pediatrics</em>. 2019;143(1). <span class="ref-level">Guideline Pediátrico</span></div></div>
+      <div class="ref-card"><div class="ref-num">13</div><div class="ref-text"><strong>DHHS Panel on Opportunistic Infections in Adults and Adolescents.</strong> Guidelines for the prevention and treatment of opportunistic infections in HIV-infected adults and adolescents. 2023. <span class="ref-level">Guideline HIV</span></div></div>
+      <div class="ref-card"><div class="ref-num">14</div><div class="ref-text"><strong>Ministério da Saúde — Brasil.</strong> Manual de Recomendações para o Controle da Tuberculose no Brasil. 3ª edição. PNCT, 2022. <span class="ref-level">Protocolo Brasileiro</span></div></div>
+      <div class="ref-card"><div class="ref-num">15</div><div class="ref-text"><strong>Wakefield D et al.</strong> A grading system for anterior chamber flare. <em>Nussenblatt RB, Palestine AG, Chan CC, Roberge F. Am J Ophthalmol</em>. 1985;100(4):506-512. <span class="ref-level">Classificação SUN</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <button class="bn-item active" data-page="home" onclick="showPage('home')">
+      <span class="bn-icon">🏠</span><span class="bn-label">Início</span>
+    </button>
+    <button class="bn-item" data-page="doencas" onclick="showPage('doencas')">
+      <span class="bn-icon">🔬</span><span class="bn-label">Doenças</span>
+    </button>
+    <button class="bn-item" data-page="algoritmos" onclick="showPage('algoritmos')">
+      <span class="bn-icon">⚡</span><span class="bn-label">Algoritmos</span>
+    </button>
+    <button class="bn-item" data-page="tips" onclick="showPage('tips')">
+      <span class="bn-icon">💡</span><span class="bn-label">Tips</span>
+    </button>
+    <button class="bn-item" data-page="tratamento" onclick="showPage('tratamento')">
+      <span class="bn-icon">💊</span><span class="bn-label">Tratamento</span>
+    </button>
+  </div>
+</nav>
+
+<footer>
+  <strong>UveítaApp v2.0</strong> — Aplicativo educacional médico para oftalmologistas · Não substitui julgamento clínico especializado<br>
+  Fontes: Kanski 8ª Ed (2016) · BCSC AAO Section 9 (2019) · SUN Working Group 2021 · PCDT Uveítes MS/CONITEC 2019 · MSD Manuals · PubMed/PMC<br>
+  <span style="color:var(--text3)">JC Oftalmologia · 2024</span>
+</footer>
+
+<script src="data/doencas.js"></script>
+<script src="data/tabelas.js"></script>
+<script src="data/algoritmos.js"></script>
+<script src="data/tips.js"></script>
+<script src="data/tratamento.js"></script>
+<script src="data/exames.js"></script>
+<script src="data/classificacao.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
