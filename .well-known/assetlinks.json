@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.jcoftalmologia.uveiteapp",
+        "sha256_cert_fingerprints": ["B0:B7:D0:B0:07:78:9B:D1:FA:27:E1:A5:4A:3B:BC:60:AD:AB:A1:86:5E:6F:64:63:71:26:C2:44:DE:E3:46:21"]
+      }
+    }]
