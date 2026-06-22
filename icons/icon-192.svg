@@ -13,5 +13,6 @@
   <circle cx="96" cy="90" r="18" fill="#00d9b8" opacity="0.9"/>
   <circle cx="96" cy="90" r="9" fill="#0d1117"/>
   <!-- U letter accent -->
-  <text x="96" y="155" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="22" fill="#00d9b8" letter-spacing="2">UVEÍTAS</text>
+  <text x="96" y="155" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="22" fill="#00d9b8" letter-spacing="2">UVEÍTES</text>
 </svg>
+

@@ -1,6 +1,6 @@
 {
-  "name": "UveítaApp — Guia Clínico de Uveítes",
-  "short_name": "UveítaApp",
+  "name": "UveíteApp — Guia Clínico de Uveítes",
+  "short_name": "UveíteApp",
   "description": "Guia clínico completo de uveítes para oftalmologistas. 24 doenças, 9 algoritmos, 51 tips práticas. Baseado em SUN 2021, PCDT-MS, Kanski e BCSC AAO.",
   "start_url": "./index.html",
   "display": "standalone",
@@ -10,15 +10,15 @@
   "lang": "pt-BR",
   "icons": [
     {
-      "src": "./icons/icon-192.svg",
+      "src": "./icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "./icons/icon-512.svg",
+      "src": "./icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ],

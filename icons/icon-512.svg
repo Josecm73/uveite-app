@@ -1,17 +1,63 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 192 192">
-  <rect width="512" height="512" rx="40" fill="#0d1117"/>
-  <rect width="512" height="512" rx="40" fill="url(#g)"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="192" y2="192" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#00d9b8" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#1e90ff" stop-opacity="0.08"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0d1520"/>
+      <stop offset="100%" stop-color="#07090f"/>
     </linearGradient>
+    <linearGradient id="teal-glow" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00d9b8"/>
+      <stop offset="100%" stop-color="#1e90ff"/>
+    </linearGradient>
+    <linearGradient id="flame1" x1="0" y1="1" x2="0" y2="0" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#ff5c5c"/>
+      <stop offset="50%" stop-color="#ff8c42"/>
+      <stop offset="100%" stop-color="#f0b429" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="flame2" x1="0" y1="1" x2="0" y2="0" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#ff7c42"/>
+      <stop offset="100%" stop-color="#f0b429" stop-opacity="0.6"/>
+    </linearGradient>
+    <radialGradient id="iris" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1a3a5c"/>
+      <stop offset="60%" stop-color="#0d2240"/>
+      <stop offset="100%" stop-color="#061428"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
   </defs>
-  <!-- Eye outline -->
-  <ellipse cx="96" cy="90" rx="52" ry="32" fill="none" stroke="#00d9b8" stroke-width="7" stroke-linecap="round"/>
-  <!-- Pupil -->
-  <circle cx="96" cy="90" r="18" fill="#00d9b8" opacity="0.9"/>
-  <circle cx="96" cy="90" r="9" fill="#0d1117"/>
-  <!-- U letter accent -->
-  <text x="96" y="155" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="22" fill="#00d9b8" letter-spacing="2">UVEÍTAS</text>
+
+  <!-- Background rounded square -->
+  <rect width="512" height="512" rx="108" fill="url(#bg)"/>
+
+  <!-- Subtle teal radial glow background -->
+  <ellipse cx="256" cy="290" rx="200" ry="130" fill="#00d9b8" opacity="0.04"/>
+
+  <!-- FLAMES (behind eye) -->
+  <path d="M185 230 Q175 200 188 175 Q178 195 170 185 Q168 160 185 145 Q172 165 175 150 Q185 125 205 118 Q190 140 198 155 Q202 135 215 125 Q205 148 210 162 Q220 140 235 138 Q218 162 218 180 Q215 200 210 215 Z" fill="url(#flame1)" opacity="0.9"/>
+  <path d="M220 220 Q210 185 225 155 Q215 180 205 165 Q208 140 228 120 Q218 145 225 130 Q238 105 258 98 Q242 125 248 145 Q255 122 272 115 Q258 142 262 160 Q272 138 288 135 Q270 162 268 185 Q265 205 258 220 Z" fill="url(#flame1)" opacity="0.95"/>
+  <path d="M280 225 Q275 198 288 170 Q278 192 272 178 Q272 152 290 138 Q278 158 282 145 Q294 120 312 115 Q298 138 305 152 Q310 132 325 128 Q312 150 315 168 Q322 148 338 148 Q322 172 318 192 Q312 210 305 222 Z" fill="url(#flame2)" opacity="0.85"/>
+
+  <!-- EYE SCLERA -->
+  <ellipse cx="256" cy="300" rx="148" ry="88" fill="#e8f0f8" opacity="0.97"/>
+
+  <!-- EYE IRIS -->
+  <circle cx="256" cy="300" r="68" fill="url(#iris)"/>
+  <circle cx="256" cy="300" r="68" fill="none" stroke="#00d9b8" stroke-width="1.5" opacity="0.3"/>
+  <circle cx="256" cy="300" r="50" fill="none" stroke="#00d9b8" stroke-width="1" opacity="0.15"/>
+
+  <!-- PUPIL -->
+  <circle cx="256" cy="300" r="34" fill="#050810"/>
+  <circle cx="256" cy="300" r="34" fill="none" stroke="#00d9b8" stroke-width="2" opacity="0.5"/>
+
+  <!-- Corneal light reflex -->
+  <ellipse cx="242" cy="285" rx="10" ry="7" fill="white" opacity="0.35" transform="rotate(-20,242,285)"/>
+
+  <!-- Teal accent outline around eye -->
+  <path d="M108 300 Q180 215 256 212 Q332 215 404 300 Q332 385 256 388 Q180 385 108 300Z" fill="none" stroke="url(#teal-glow)" stroke-width="2.5" opacity="0.6" filter="url(#glow)"/>
+
+  <!-- Text label -->
+  <text x="256" y="448" text-anchor="middle" font-family="'Space Grotesk', 'Inter', Arial, sans-serif" font-weight="700" font-size="38" letter-spacing="4" fill="#00d9b8" opacity="0.95">UVEÍTES</text>
+  <text x="256" y="478" text-anchor="middle" font-family="'Inter', Arial, sans-serif" font-weight="400" font-size="18" letter-spacing="2" fill="#4a6278">GUIA CLÍNICO</text>
 </svg>
