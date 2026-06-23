@@ -122,10 +122,28 @@ async function handleGoogleSignIn(){
   await signInWithGoogle();
 }
 
-function handleSubscribeClick(plan){
+let selectedPlan = 'annual';
+
+function selectPlan(plan){
+  selectedPlan = plan;
+  const monthly = document.getElementById('plan-monthly');
+  const annual = document.getElementById('plan-annual');
+  if(plan === 'monthly'){
+    monthly.style.borderColor = '#00d9b8';
+    monthly.style.background = 'rgba(0,217,184,.07)';
+    annual.style.borderColor = '#1a3a3e';
+    annual.style.background = '#0a161a';
+  } else {
+    annual.style.borderColor = '#00d9b8';
+    annual.style.background = 'rgba(0,217,184,.07)';
+    monthly.style.borderColor = '#1a3a3e';
+    monthly.style.background = '#0a161a';
+  }
+}
+
+function handleSubscribeClick(){
   const msg = document.getElementById('paywall-msg');
   msg.textContent = 'Pagamento via Google Play em breve — estamos finalizando a integração.';
-  msg.style.color = '#f0b429';
 }
 
 document.addEventListener('DOMContentLoaded', initAuth);

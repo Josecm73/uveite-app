@@ -377,38 +377,51 @@ footer strong{color:var(--text2)}
 </div>
 
 <!-- AUTH: PAYWALL OVERLAY -->
-<div id="auth-paywall-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:#07090f;align-items:center;justify-content:center;padding:1.5rem;overflow-y:auto">
-  <div style="max-width:420px;width:100%;background:#111827;border:1px solid #1f2d42;border-radius:16px;padding:2rem;text-align:center;margin:auto">
-    <div style="font-size:2.2rem;margin-bottom:.5rem">🔒</div>
-    <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.25rem;margin-bottom:.4rem;color:#e8f0f8">Seu teste gratuito expirou</h2>
-    <p style="font-size:.8rem;color:#8da4bf;margin-bottom:1.4rem;line-height:1.6">Assine o UveíteApp Premium para continuar acessando o guia clínico completo de uveítes.</p>
+<div id="auth-paywall-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(7,9,15,.9);align-items:center;justify-content:center;padding:1.2rem;overflow-y:auto">
+  <div style="max-width:400px;width:100%;background:#0e1f24;border:1px solid #1a3a3e;border-radius:18px;padding:1.6rem;margin:auto;position:relative">
+    <button onclick="signOutUser()" style="position:absolute;top:1.1rem;right:1.1rem;background:none;border:none;color:#5f8a8a;font-size:1.1rem;cursor:pointer;line-height:1">×</button>
 
-    <div style="text-align:left;background:rgba(0,217,184,.06);border:1px solid rgba(0,217,184,.2);border-radius:12px;padding:1rem 1.1rem;margin-bottom:1.2rem">
-      <div style="font-size:.78rem;color:#e8f0f8;font-weight:600;margin-bottom:.6rem">O que você desbloqueia:</div>
-      <div style="font-size:.76rem;color:#8da4bf;line-height:2">
-        ✓ 24 doenças detalhadas (infecciosas e não infecciosas)<br>
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:.5rem">
+      <span style="color:#00d9b8;font-size:.95rem">🔒</span>
+      <span style="font-size:.68rem;font-weight:700;letter-spacing:.1em;color:#00d9b8;text-transform:uppercase">Conteúdo Premium</span>
+    </div>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.25rem;margin-bottom:.4rem;color:#e8f0f8">UveíteApp Premium</h2>
+    <p style="font-size:.8rem;color:#8da4bf;margin-bottom:1.1rem;line-height:1.6">Acesso completo a todo o conteúdo clínico de uveítes.</p>
+
+    <div style="display:flex;align-items:center;gap:8px;background:rgba(0,217,184,.08);border:1px solid rgba(0,217,184,.25);border-radius:10px;padding:.7rem .9rem;margin-bottom:1.1rem;font-size:.78rem;color:#9adfd6">
+      <span style="color:#00d9b8">⭐</span> Seu teste gratuito de 7 dias expirou
+    </div>
+
+    <div style="text-align:left;margin-bottom:1.2rem">
+      <div style="font-size:.78rem;color:#9adfd6;line-height:2.1">
+        ✓ 24 doenças completas (infecciosas e não infecciosas)<br>
         ✓ 9 algoritmos diagnósticos e terapêuticos<br>
         ✓ 51 tips práticas baseadas em evidências<br>
         ✓ Tabelas comparativas e protocolos atualizados<br>
-        ✓ Acesso offline completo
+        ✓ Todo conteúdo novo adicionado futuramente<br>
+        ✓ Funciona offline após primeiro acesso
       </div>
     </div>
 
-    <div style="display:flex;gap:.7rem;margin-bottom:1.2rem">
-      <div style="flex:1;border:1px solid #26384f;border-radius:12px;padding:.9rem .6rem;background:#0d1117">
-        <div style="font-size:.68rem;color:#8da4bf;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem">Mensal</div>
-        <div style="font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;color:#e8f0f8">R$ 24,90<span style="font-size:.65rem;color:#8da4bf;font-weight:400">/mês</span></div>
+    <div style="display:flex;gap:.7rem;margin-bottom:1.1rem">
+      <div onclick="selectPlan('monthly')" id="plan-monthly" style="flex:1;border:1.5px solid #1a3a3e;border-radius:12px;padding:.9rem .7rem;background:#0a161a;cursor:pointer;transition:all .2s">
+        <div style="font-size:.68rem;color:#5f8a8a;margin-bottom:.4rem">⚡ MENSAL</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;color:#e8f0f8">R$ 24,90</div>
+        <div style="font-size:.66rem;color:#5f8a8a;margin-top:2px">por mês</div>
       </div>
-      <div style="flex:1;border:1.5px solid #00d9b8;border-radius:12px;padding:.9rem .6rem;background:rgba(0,217,184,.08);position:relative">
-        <div style="position:absolute;top:-9px;right:8px;background:#00d9b8;color:#07090f;font-size:.6rem;font-weight:700;padding:2px 7px;border-radius:8px">-50%</div>
-        <div style="font-size:.68rem;color:#00d9b8;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem">Anual</div>
-        <div style="font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;color:#e8f0f8">R$ 149,90<span style="font-size:.65rem;color:#8da4bf;font-weight:400">/ano</span></div>
+      <div onclick="selectPlan('annual')" id="plan-annual" style="flex:1;border:1.5px solid #00d9b8;border-radius:12px;padding:.9rem .7rem;background:rgba(0,217,184,.07);cursor:pointer;position:relative;transition:all .2s">
+        <div style="position:absolute;top:-9px;right:8px;background:#00d9b8;color:#07090f;font-size:.58rem;font-weight:700;padding:2px 8px;border-radius:8px;letter-spacing:.03em">MELHOR VALOR</div>
+        <div style="font-size:.68rem;color:#00d9b8;margin-bottom:.4rem">⭐ ANUAL</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;color:#e8f0f8">R$ 149,90</div>
+        <div style="font-size:.66rem;color:#00d9b8;margin-top:2px">R$ 12,49/mês · 50% off</div>
       </div>
     </div>
 
-    <button onclick="handleSubscribeClick('annual')" style="width:100%;padding:12px;border-radius:10px;border:none;background:linear-gradient(135deg,#00d9b8,#00a898);color:#07090f;font-weight:700;font-size:.88rem;cursor:pointer;margin-bottom:.6rem;font-family:'Space Grotesk',sans-serif">Assinar Premium</button>
-    <button onclick="signOutUser()" style="width:100%;padding:11px;border-radius:10px;border:1px solid #26384f;background:none;color:#8da4bf;font-weight:600;font-size:.82rem;cursor:pointer;font-family:'Space Grotesk',sans-serif">Sair da conta</button>
-    <p id="paywall-msg" style="font-size:.72rem;color:#8da4bf;margin-top:.9rem;min-height:1.2em"></p>
+    <button onclick="handleSubscribeClick()" style="width:100%;padding:12px;border-radius:10px;border:none;background:linear-gradient(135deg,#00d9b8,#00a898);color:#07090f;font-weight:700;font-size:.88rem;cursor:pointer;margin-bottom:.8rem;font-family:'Space Grotesk',sans-serif">Assinar agora</button>
+
+    <p style="font-size:.68rem;color:#5f8a8a;margin-bottom:.5rem">Cobrado pelo Google Play · Cancele a qualquer momento</p>
+    <button onclick="signOutUser()" style="background:none;border:none;color:#5f8a8a;font-size:.78rem;cursor:pointer;text-decoration:underline">Agora não</button>
+    <p id="paywall-msg" style="font-size:.72rem;color:#f0b429;margin-top:.7rem;min-height:1.2em"></p>
   </div>
 </div>
 
