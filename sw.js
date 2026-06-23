@@ -1,4 +1,4 @@
-const CACHE = 'uveites-v3';
+const CACHE = 'uveites-v4';
 const ASSETS = [
   './',
   './index.html',
