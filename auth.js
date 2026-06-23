@@ -122,4 +122,10 @@ async function handleGoogleSignIn(){
   await signInWithGoogle();
 }
 
+function handleSubscribeClick(plan){
+  const msg = document.getElementById('paywall-msg');
+  msg.textContent = 'Pagamento via Google Play em breve — estamos finalizando a integração.';
+  msg.style.color = '#f0b429';
+}
+
 document.addEventListener('DOMContentLoaded', initAuth);

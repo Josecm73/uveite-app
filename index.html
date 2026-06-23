@@ -377,13 +377,38 @@ footer strong{color:var(--text2)}
 </div>
 
 <!-- AUTH: PAYWALL OVERLAY -->
-<div id="auth-paywall-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:#07090f;align-items:center;justify-content:center;padding:1.5rem">
-  <div style="max-width:380px;width:100%;background:#111827;border:1px solid #1f2d42;border-radius:16px;padding:2rem;text-align:center">
-    <div style="font-size:2.4rem;margin-bottom:.6rem">🔒</div>
-    <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;margin-bottom:.4rem;color:#e8f0f8">Seu teste gratuito expirou</h2>
-    <p style="font-size:.82rem;color:#8da4bf;margin-bottom:1.5rem;line-height:1.6">Assine o UveíteApp Premium para continuar acessando o guia clínico completo de uveítes.</p>
-    <button style="width:100%;padding:11px;border-radius:10px;border:none;background:linear-gradient(135deg,#00d9b8,#00a898);color:#07090f;font-weight:700;font-size:.88rem;cursor:pointer;margin-bottom:.6rem;font-family:'Space Grotesk',sans-serif">Assinar Premium</button>
+<div id="auth-paywall-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:#07090f;align-items:center;justify-content:center;padding:1.5rem;overflow-y:auto">
+  <div style="max-width:420px;width:100%;background:#111827;border:1px solid #1f2d42;border-radius:16px;padding:2rem;text-align:center;margin:auto">
+    <div style="font-size:2.2rem;margin-bottom:.5rem">🔒</div>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.25rem;margin-bottom:.4rem;color:#e8f0f8">Seu teste gratuito expirou</h2>
+    <p style="font-size:.8rem;color:#8da4bf;margin-bottom:1.4rem;line-height:1.6">Assine o UveíteApp Premium para continuar acessando o guia clínico completo de uveítes.</p>
+
+    <div style="text-align:left;background:rgba(0,217,184,.06);border:1px solid rgba(0,217,184,.2);border-radius:12px;padding:1rem 1.1rem;margin-bottom:1.2rem">
+      <div style="font-size:.78rem;color:#e8f0f8;font-weight:600;margin-bottom:.6rem">O que você desbloqueia:</div>
+      <div style="font-size:.76rem;color:#8da4bf;line-height:2">
+        ✓ 24 doenças detalhadas (infecciosas e não infecciosas)<br>
+        ✓ 9 algoritmos diagnósticos e terapêuticos<br>
+        ✓ 51 tips práticas baseadas em evidências<br>
+        ✓ Tabelas comparativas e protocolos atualizados<br>
+        ✓ Acesso offline completo
+      </div>
+    </div>
+
+    <div style="display:flex;gap:.7rem;margin-bottom:1.2rem">
+      <div style="flex:1;border:1px solid #26384f;border-radius:12px;padding:.9rem .6rem;background:#0d1117">
+        <div style="font-size:.68rem;color:#8da4bf;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem">Mensal</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;color:#e8f0f8">R$ 24,90<span style="font-size:.65rem;color:#8da4bf;font-weight:400">/mês</span></div>
+      </div>
+      <div style="flex:1;border:1.5px solid #00d9b8;border-radius:12px;padding:.9rem .6rem;background:rgba(0,217,184,.08);position:relative">
+        <div style="position:absolute;top:-9px;right:8px;background:#00d9b8;color:#07090f;font-size:.6rem;font-weight:700;padding:2px 7px;border-radius:8px">-50%</div>
+        <div style="font-size:.68rem;color:#00d9b8;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem">Anual</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;color:#e8f0f8">R$ 149,90<span style="font-size:.65rem;color:#8da4bf;font-weight:400">/ano</span></div>
+      </div>
+    </div>
+
+    <button onclick="handleSubscribeClick('annual')" style="width:100%;padding:12px;border-radius:10px;border:none;background:linear-gradient(135deg,#00d9b8,#00a898);color:#07090f;font-weight:700;font-size:.88rem;cursor:pointer;margin-bottom:.6rem;font-family:'Space Grotesk',sans-serif">Assinar Premium</button>
     <button onclick="signOutUser()" style="width:100%;padding:11px;border-radius:10px;border:1px solid #26384f;background:none;color:#8da4bf;font-weight:600;font-size:.82rem;cursor:pointer;font-family:'Space Grotesk',sans-serif">Sair da conta</button>
+    <p id="paywall-msg" style="font-size:.72rem;color:#8da4bf;margin-top:.9rem;min-height:1.2em"></p>
   </div>
 </div>
 
