@@ -1,8 +1,9 @@
-const CACHE = 'uveites-v2';
+const CACHE = 'uveites-v3';
 const ASSETS = [
   './',
   './index.html',
   './app.js',
+  './auth.js',
   './data/classificacao.js',
   './data/doencas.js',
   './data/tabelas.js',
