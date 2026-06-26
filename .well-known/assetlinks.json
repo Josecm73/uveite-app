@@ -1,8 +1,15 @@
-[{
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "com.jcoftalmologia.uveiteapp",
-        "sha256_cert_fingerprints": ["B0:B7:D0:B0:07:78:9B:D1:FA:27:E1:A5:4A:3B:BC:60:AD:AB:A1:86:5E:6F:64:63:71:26:C2:44:DE:E3:46:21"]
-      }
-    }]
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.jcoftalmologia.uveiteapp",
+      "sha256_cert_fingerprints": [
+        "B0:B7:D0:B0:07:78:9B:D1:FA:27:E1:A5:4A:3B:BC:60:AD:AB:A1:86:5E:6F:64:63:71:26:C2:44:DE:E3:46:21",
+        "C9:B1:09:92:85:9F:30:8B:75:B4:D1:71:95:CE:51:C5:71:66:76:A2:B2:AE:C3:D1:F6:00:43:A6:8E:FC:1C:0B"
+      ]
+    }
+  }
+]
